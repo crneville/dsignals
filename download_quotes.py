@@ -15,6 +15,10 @@ _logger = logging.getLogger(__name__)
 
 # Read eodhistoricaldata.com token fron environment -- or insert into code
 EODHD_TOKEN = os.getenv("NUMERAI_EODHD_TOKEN", "your_eodhd_api_key")
+if EODHD_TOKEN == "your_eodhd_api_key":
+    print('!!! WARNING !!! EOD Token not given, defaulting to backup source(s)')
+else:
+    print(f'!!! SUCCESS !!! Using EOD Token ending with {EODHD_TOKEN[-4:]}')
 
 DB_FOLDER = Path("./db/")
 DATA_FOLDER = Path("./data/")
