@@ -55,6 +55,8 @@ def yahoo_download_one(signals_ticker: str) -> pd.DataFrame:
             "adjusted_close",
             "volume",
         ]
+    else:
+        logging.info(f'Yahoo ticker {signals_ticker} failed download')
 
     return quotes
 
@@ -81,6 +83,8 @@ def eodhd_download_one(signals_ticker: str) -> pd.DataFrame:
                 "adjusted_close",
                 "volume",
             ]
+    else:
+        logging.info(f'EOD-HD ticker {signals_ticker} failed download')
 
     return quotes
 
@@ -129,10 +133,15 @@ def download_save_all(ticker_map):
                 )
             )
 
+        successful = failures = 0
         for future in tqdm(futures.as_completed(_futures), total=len(tickers), desc='DSignals OHLCA-V Download'):
             bloomberg_ticker, quotes = future.result()
             if quotes is not None:
                 quotes.to_pickle(QUOTE_FOLDER / make_filename_safe(bloomberg_ticker))
+                successful += 1
+            else:
+                failures += 1
+        logging.into(f'DSignals quote download complete with {successful} successes and {failures} failures ({successful/len(tickers)*100:0.2f}%).')
 
 
 def read_quotes(bloomberg_ticker):
