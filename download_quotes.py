@@ -129,7 +129,7 @@ def download_save_all(ticker_map):
                 )
             )
 
-        for future in tqdm(futures.as_completed(_futures), total=len(tickers)):
+        for future in tqdm(futures.as_completed(_futures), total=len(tickers), desc='DSignals OHLCA-V Download'):
             bloomberg_ticker, quotes = future.result()
             if quotes is not None:
                 quotes.to_pickle(QUOTE_FOLDER / make_filename_safe(bloomberg_ticker))
