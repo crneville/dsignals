@@ -141,7 +141,7 @@ def download_save_all(ticker_map):
                 successful += 1
             else:
                 failures += 1
-        logging.into(f'DSignals quote download complete with {successful} successes and {failures} failures ({successful/len(tickers)*100:0.2f}%).')
+        logging.info(f'DSignals quote download complete with {successful} successes and {failures} failures ({successful/len(tickers)*100:0.2f}%).')
 
 
 def read_quotes(bloomberg_ticker):
